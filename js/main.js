@@ -1,5 +1,6 @@
     window.onload = function() {
     	window.castReceiverManager = cast.receiver.CastReceiverManager.getInstance();
+        bus = window.castReceiverManager.getCastMessageBus('urn:x-cast:com.sample.hello');
     	window.castReceiverManager.start();
 
 /*    	window.castReceiverManager.onSenderDisconnected = function(event) {
