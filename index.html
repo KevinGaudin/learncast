@@ -1,13 +1,16 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="LearnApp">
 <head>
 	<title>Learn receiver</title>
-
+	<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.0-rc.0/angular.min.js"></script>
 	<script type="text/javascript" src="//www.gstatic.com/cast/sdk/libs/receiver/2.0.0/cast_receiver.js"></script>
-	<script type="text/javascript" src="js/main.js"></script>
+	<script type="text/javascript" src="js/LearnController.js"></script>
 	<link rel="stylesheet" type="text/css" href="css/chromecast-base.css">
 </head>
-<body>
-<h1>Receiver</h1>
+<body ng-controller="LearnController as learn">
+<h1>{{hello}} Receiver</h1>
+<p>
+	There are {{sendersCount}} active senders.
+</p>
 </body>
 </html>
