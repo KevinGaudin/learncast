@@ -20,7 +20,7 @@ var LearnController = function($scope) {
 	}
 
 	this.removeSender = function(event) {
-		$scope.apply(function() {
+		$scope.$apply(function() {
 			console.log("Sender disconnected");
 			console.log(event);
 			console.log(window.castReceiverManager.getSenders());
