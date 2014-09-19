@@ -7,10 +7,15 @@
 	<script type="text/javascript" src="js/LearnController.js"></script>
 	<link rel="stylesheet" type="text/css" href="css/chromecast-base.css">
 </head>
-<body ng-controller="LearnController as learn">
+<body ng-controller="LearnController">
 <h1>{{hello}} Receiver</h1>
 <p>
 	There are {{sendersCount}} active senders.
+	<ul>
+		<li ng-repeat="player in players">
+			{{player.name}}
+		</li>
+	</ul>
 </p>
 </body>
 </html>
