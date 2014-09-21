@@ -6,3 +6,8 @@ body {
 h1 {
     color: red;
 }
+
+.avatar {
+	width: 3em;
+	height: 3em;
+}

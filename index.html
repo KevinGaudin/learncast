@@ -2,10 +2,14 @@
 <html ng-app="LearnApp">
 <head>
 	<title>Learn receiver</title>
+	<link rel="stylesheet" type="text/css" href="css/chromecast-base.css">
 	<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.0-rc.0/angular.min.js"></script>
 	<script type="text/javascript" src="//www.gstatic.com/cast/sdk/libs/receiver/2.0.0/cast_receiver.js"></script>
+	<script type="text/javascript" src="vendor/kevingaudin/monsterid/monsterid.min.js"></script>
 	<script type="text/javascript" src="js/LearnController.js"></script>
-	<link rel="stylesheet" type="text/css" href="css/chromecast-base.css">
+	<script type="text/javascript" src="js/QuestionFactory.js"></script>
+	<script type="text/javascript" src="js/service.monsterid.js"></script>
+
 </head>
 <body ng-controller="LearnController">
 <h1>{{hello}} Receiver</h1>
@@ -13,6 +17,7 @@
 	There are {{sendersCount}} active senders.
 	<ul>
 		<li ng-repeat="player in players">
+			<img class="avatar" monsterid="{{player.name}}" title="{{player.name}}"/>
 			{{player.senderId}} - {{player.name}}
 		</li>
 	</ul>

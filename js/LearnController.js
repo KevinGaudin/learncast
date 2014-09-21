@@ -1,4 +1,5 @@
 var LEARN_PROTOCOL = 'urn:x-cast:com.kg.learn';
+var PING_TIMEOUT = 5000;
 
 console.log("Create app module");
 var learnApp = angular.module('LearnApp', []);
@@ -30,7 +31,7 @@ Player.prototype = {
 /**
  * LearnController : main controller for our AngularJS app
  */
-var LearnController = function($scope) {
+var LearnController = function($scope, QuestionFactory) {
 	var _this = this;
 
 
@@ -86,7 +87,8 @@ var LearnController = function($scope) {
 	window.castReceiverManager.onSenderDisconnected = this.removeSender;
 	window.castReceiverManager.onSenderConnected = this.addSender;
 	window.castReceiverManager.start();
+
 };
 
-LearnController.$inject = ['$scope'];
+LearnController.$inject = ['$scope', 'QuestionFactory'];
 learnApp.controller('LearnController', LearnController);
