@@ -3,7 +3,11 @@
 <head>
 	<title>Learn receiver</title>
 	<link rel="stylesheet" type="text/css" href="css/chromecast-base.css">
-	<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.0-rc.0/angular.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="css/learn.css">
+	<link rel="stylesheet" type="text/css" href="vendor/daneden/animate.css">
+	
+	<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.0-rc.2/angular.min.js"></script>
+	<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.0-rc.2/angular-animate.min.js"></script>
 	<script type="text/javascript" src="//www.gstatic.com/cast/sdk/libs/receiver/2.0.0/cast_receiver.js"></script>
 	<script type="text/javascript" src="vendor/kevingaudin/monsterid/monsterid.min.js"></script>
 	<script type="text/javascript" src="js/LearnController.js"></script>
@@ -16,10 +20,10 @@
 <p>
 	There are {{sendersCount}} active senders.
 	<ul>
-		<li ng-repeat="player in players" ng-class="player.readyToPlay ? 'readyToPlay' : ''">
-			<img class="avatar" monsterid="{{player.name}}" title="{{player.name}}" />
+		<li ng-repeat="player in players" ng-class="{'readyToPlay' : player.readyToPlay}">
+			<img class="avatar" monsterid="{{player.name}}" title="{{player.name}}" ng-class="{'winner': player.isWinner}"/>
 			{{player.name}} - {{player.questions[player.currentQuestion].question}}
-			<div id="score"><span ng-repeat="score in scorecard">*</span></div>
+			<div id="score"><span ng-repeat="score in player.scorecard track by $index"><span>*</span></span></div>
 		</li>
 	</ul>
 </p>

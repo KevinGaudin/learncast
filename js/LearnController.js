@@ -1,16 +1,18 @@
 var LEARN_PROTOCOL = 'urn:x-cast:com.kg.learn';
 var PING_TIMEOUT = 5000;
+var NB_QUESTIONS = 3;
 
 console.log("Create app module");
-var learnApp = angular.module('LearnApp', []);
+var learnApp = angular.module('LearnApp', ['ngAnimate']);
 
-function Player(senderId, channel) {
+function Player(senderId, channel, onAllQuestionsAnswered) {
 	this.senderId = senderId;
 	this.channel = channel;
 	this.channel.onMessage = this.onMessage.bind(this);
 	this.channel.send({
 		command: "identify"
 	});
+	this.onAllQuestionsAnswered = onAllQuestionsAnswered;
 };
 
 Player.prototype = {
@@ -20,7 +22,8 @@ Player.prototype = {
 	readyToPlay: false,
 	questions: null,
 	currentQuestion: 0,
-	scorecard: [],
+	scorecard: null,
+	isWinner: false,
 	onMessage: function(event) {
 		console.log("Received message from: " + this.senderId + ": ", event);
 		switch (event.message.command) {
@@ -49,20 +52,27 @@ Player.prototype = {
 		this.channel.send(command);
 	},
 	setQuestions: function(questions) {
+		this.isWinner = false;
 		this.questions = questions;
+		this.scorecard = Array();
 	},
 	checkAnswer: function(answer) {
 		if (answer == this.questions[this.currentQuestion].result) {
 			console.log(this.name + " " + answer + " is the right answer!");
 			this.scorecard.push("1");
+			console.log(this.name + " scorecard ", this.scorecard);
 			this.currentQuestion++;
 			if (this.currentQuestion < this.questions.length) {
 				this.ask();
+			} else {
+				// Finished all questions!
+				this.onAllQuestionsAnswered(this);
 			}
 		} else {
 			console.log(this.name + " " + answer + " is wrong, try again...");
 		}
-	}
+	},
+	onAllQuestionsAnswered: null,
 
 }
 
@@ -84,7 +94,7 @@ var LearnController = function($scope, QuestionFactory) {
 
 			console.log("Get Channel with " + event.senderId);
 
-			var player = new Player(event.senderId, _this.bus.getCastChannel(event.senderId));
+			var player = new Player(event.senderId, _this.bus.getCastChannel(event.senderId), _this.onPlayerAnsweredAllQuestions);
 
 
 			$scope.players.push(player);
@@ -139,6 +149,7 @@ var LearnController = function($scope, QuestionFactory) {
 					console.log("No global action required");
 			}
 		});
+
 	};
 
 	window.castReceiverManager = cast.receiver.CastReceiverManager.getInstance();
@@ -152,7 +163,7 @@ var LearnController = function($scope, QuestionFactory) {
 	this.startGame = function() {
 
 		// Prepare 10 questions
-		for (var i = 0; i < 10; i++) {
+		for (var i = 0; i < NB_QUESTIONS; i++) {
 			_this.questions[i] = QuestionFactory.getQuestion();
 		}
 
@@ -163,6 +174,20 @@ var LearnController = function($scope, QuestionFactory) {
 
 	}
 
+	this.onPlayerAnsweredAllQuestions = function(player) {
+		$scope.$apply(function() {
+			console.log("winner: ", player.name);
+			player.isWinner = true;
+			var command = {
+				command: 'endGame',
+				winner: {
+					senderId: player.senderId,
+					name: player.name
+				}
+			};
+			_this.bus.broadcast(command);
+		});
+	};
 };
 
 
