@@ -16,9 +16,10 @@
 <p>
 	There are {{sendersCount}} active senders.
 	<ul>
-		<li ng-repeat="player in players">
-			<img class="avatar" monsterid="{{player.name}}" title="{{player.name}}"/>
-			{{player.senderId}} - {{player.name}}
+		<li ng-repeat="player in players" ng-class="player.readyToPlay ? 'readyToPlay' : ''">
+			<img class="avatar" monsterid="{{player.name}}" title="{{player.name}}" />
+			{{player.name}} - {{player.questions[player.currentQuestion].question}}
+			<div id="score"><span ng-repeat="score in scorecard">*</span></div>
 		</li>
 	</ul>
 </p>

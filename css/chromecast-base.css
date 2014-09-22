@@ -3,6 +3,10 @@ body {
     color: white;
 }
 
+.readyToPlay {
+	color: green;
+}
+
 h1 {
     color: red;
 }
