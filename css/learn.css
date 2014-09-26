@@ -2,12 +2,20 @@
 	color: green;
 }
 
-h1 {
-    color: red;
+.avatar {
+	padding: 0.2em;
+	width: 4em;
+	height: 4em;
+	position: relative;
+	background: #ddd;
+	border-style: solid;
+	border-radius: 1em;
+	border-width: 0.2em;
+	border-color: transparent;
+	margin: 1em;
 }
 
-.avatar {
-	width: 8em;
-	height: 8em;
+#score {
+	font-size: 2em;
 }
 
