@@ -11,6 +11,7 @@ learnApp.config(['$translateProvider',
 			prefix: 'UI/assets/translation/main/',
 			suffix: '.json'
 		});
+		$translateProvider.addInterpolation('$translateMessageFormatInterpolation');
 		$translateProvider.preferredLanguage('fr');
 
 	}

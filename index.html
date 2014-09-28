@@ -13,7 +13,12 @@
 		<script type="text/javascript" src="bower_components/angular-material/angular-material.min.js"></script>
 		<script type="text/javascript" src="bower_components/angular-translate/angular-translate.min.js"></script>
 		<script type="text/javascript" src="bower_components/angular-translate-loader-static-files/angular-translate-loader-static-files.min.js"></script>
+		<script src="bower_components/messageformat/messageformat.js"></script>
+		<script src="bower_components/messageformat/locale/en.js"></script>
+		<script src="bower_components/messageformat/locale/fr.js"></script>
+		<script src="bower_components/angular-translate-interpolation-messageformat/angular-translate-interpolation-messageformat.min.js"></script>
 		<!-- / Bower dependencies -->
+
 		<script type="text/javascript" src="//www.gstatic.com/cast/sdk/libs/receiver/2.0.0/cast_receiver.js"></script>
 		<script type="text/javascript" src="vendor/kevingaudin/monsterid/monsterid.min.js"></script>
 		<!-- <script type="text/javascript" src="src/common/translation/translation.js"></script> -->
@@ -29,9 +34,7 @@
 		</material-toolbar>
 		<material-content>
 		<p>{{'WELCOME' | translate}}</p>
-		<p>
-		There are {{sendersCount}} active senders.
-		</p>
+		<p translate='ACTIVE' translate-values="{ACTIVECOUNT: sendersCount}", translate-interpolation="messageformat"></p>
 		<material-list>
 			<material-item ng-repeat="player in players">
 				<material-item-content>

@@ -1,4 +1,5 @@
   {
     "TITLE": "Learn",
-    "WELCOME": "Welcome to LearnCast"
+    "WELCOME": "Welcome to LearnCast",
+    "ACTIVE": "There {ACTIVECOUNT, select, 1{is} other{are}} {ACTIVECOUNT} active sender{ACTIVECOUNT, select, 1{} other{s}}"
   }
