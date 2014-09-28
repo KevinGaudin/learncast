@@ -3,15 +3,27 @@ var PING_TIMEOUT = 5000;
 var NB_QUESTIONS = 3;
 
 console.log("Create app module");
-var learnApp = angular.module('LearnApp', ['ngAnimate', 'pascalprecht.translate', 'ngMaterial', 'angularTranslateApp']);
+var learnApp = angular.module('LearnApp', ['ngAnimate', 'pascalprecht.translate', 'ngMaterial']);
+
+learnApp.config(['$translateProvider',
+	function($translateProvider) {
+		$translateProvider.useStaticFilesLoader({
+			prefix: 'UI/assets/translation/main/',
+			suffix: '.json'
+		});
+		$translateProvider.preferredLanguage('fr');
+
+	}
+]);
 
 function Player(senderId, channel, onAllQuestionsAnswered) {
+	console.log("create player ", senderId);
 	this.senderId = senderId;
 	this.channel = channel;
 	this.channel.onMessage = this.onMessage.bind(this);
 	this.channel.send({
 		command: "identify"
-	});	
+	});
 	this.onAllQuestionsAnswered = onAllQuestionsAnswered;
 };
 
@@ -79,9 +91,8 @@ Player.prototype = {
 /**
  * LearnController : main controller for our AngularJS app
  */
-var LearnController = function($scope, QuestionFactory, $window) {
+var LearnController = function($scope, QuestionFactory, $window, $translate) {
 	var _this = this;
-
 
 	$scope.sendersCount = 0;
 	$scope.players = [];
@@ -193,5 +204,5 @@ var LearnController = function($scope, QuestionFactory, $window) {
 
 
 
-LearnController.$inject = ['$scope', 'QuestionFactory', '$window'];
+LearnController.$inject = ['$scope', 'QuestionFactory', '$window', '$translate'];
 learnApp.controller('LearnController', LearnController);
