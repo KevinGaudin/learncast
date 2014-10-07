@@ -1,5 +1,5 @@
 { 
-    "TITLE": "Apprendre",
+    "TITLE": "LearnCast",
     "WELCOME": "Bienvenue sur LearnCast",
     "ACTIVE": "Il y a {ACTIVECOUNT} joueur{ACTIVECOUNT, select, 1{} other{s}} connecté{ACTIVECOUNT, select, 1{} other{s}}" 
 }
