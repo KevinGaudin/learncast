@@ -1,6 +1,6 @@
 var LEARN_PROTOCOL = 'urn:x-cast:com.kg.learn';
 var PING_TIMEOUT = 5000;
-var NB_QUESTIONS = 3;
+var NB_QUESTIONS = 10;
 
 console.log("Create app module");
 var learnApp = angular.module('LearnApp', ['ngAnimate', 'pascalprecht.translate', 'ngMaterial']);
@@ -107,8 +107,9 @@ var LearnController = function($scope, QuestionFactory, $window, $translate) {
 
 			console.log("Get Channel with " + event.senderId);
 
-			var player = new Player(event.senderId, _this.bus.getCastChannel(event.senderId), _this.onPlayerAnsweredAllQuestions);
+			var player = new Player(event.senderId, _this.bus.getCastChannel(event.senderId), _this.onPlayerAnsweredAllQuestions, Snap);
 
+//			window.Snap("#spaceship").load("UI/assets/images/spaceship1.svg");
 
 			$scope.players.push(player);
 			console.log("players", $scope.players);

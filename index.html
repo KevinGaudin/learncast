@@ -6,6 +6,7 @@
 		<link rel="stylesheet" type="text/css" href="css/chromecast-material.css">
 		<link rel="stylesheet" type="text/css" href="css/learn.css">
 		
+		<script type="text/javascript" src="vendor/adobe/snap.svg-min.js"></script>
 		
 		<!-- Bower dependencies -->
 		<script type="text/javascript" src="bower_components/angular/angular.min.js"></script>
@@ -43,7 +44,9 @@
 					</div>
 					<div class="material-tile-content">
 						<div>{{player.name}} - {{player.questions[player.currentQuestion].question}}</div>
-						<div id="score"><span ng-repeat="score in player.scorecard track by $index">*</span></div>
+						<div id="score" ng-style="{'overflow' : 'hidden', 'height': (player.scorecard.length + 1) * 0.1 * 116 + 'px'}">
+						<img id="#spaceship" src="UI/assets/images/spaceship1.svg"></svg>
+						<span ng-repeat="score in player.scorecard track by $index">*</span></div>
 					</div>
 				</material-item-content>
 			</material-item>
