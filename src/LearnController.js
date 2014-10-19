@@ -70,6 +70,7 @@ Sender.prototype = {
 		this.isWinner = false;
 		this.questions = questions;
 		this.scorecard = Array();
+		this.currentQuestion = 0;
 	},
 	checkAnswer: function(answer) {
 		if (answer == this.questions[this.currentQuestion].result) {
@@ -181,6 +182,8 @@ var LearnController = function($scope, QuestionFactory, $window, $translate) {
 
 	this.questions = [];
 	this.startGame = function() {
+		// Reset previous questions
+		_this.questions = [];
 
 		// Prepare 10 questions
 		for (var i = 0; i < NB_QUESTIONS; i++) {
