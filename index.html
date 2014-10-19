@@ -10,6 +10,8 @@
 		
 		<!-- Bower dependencies -->
 		<script type="text/javascript" src="bower_components/angular/angular.min.js"></script>
+		<script type="text/javascript" src="bower_components/hammerjs/hammer.min.js"></script>
+		<script type="text/javascript" src="bower_components/angular-aria/angular-aria.min.js"></script>
 		<script type="text/javascript" src="bower_components/angular-animate/angular-animate.min.js"></script>
 		<script type="text/javascript" src="bower_components/angular-material/angular-material.min.js"></script>
 		<script type="text/javascript" src="bower_components/angular-translate/angular-translate.min.js"></script>
@@ -28,30 +30,30 @@
 		<script type="text/javascript" src="src/service.monsterid.js"></script>
 	</head>
 	<body ng-controller="LearnController as learn">
-		<material-toolbar class="material-theme-light">
-			<h1 class="material-toolbar-tools">
+		<md-toolbar class="md-theme-light">
+			<h1 class="md-toolbar-tools">
 				{{'TITLE' | translate}}
 			</h1>
-		</material-toolbar>
-		<material-content>
+		</md-toolbar>
+		<md-content>
 		<p>{{'WELCOME' | translate}}</p>
 		<p translate='ACTIVE' translate-values="{ACTIVECOUNT: players.length}", translate-interpolation="messageformat"></p>
 		<p ng-show="teacher">Teacher is here.</p>
-		<material-list>
-			<material-item ng-repeat="player in players">
-				<material-item-content layout="horizontal">
-					<div class="material-tile-left">
+		<md-list>
+			<md-item ng-repeat="player in players">
+				<md-item-content layout="horizontal">
+					<div class="md-tile-left">
 						<img class="avatar" monsterid="{{player.name}}" title="{{player.name}}" ng-class="{'winner': player.isWinner}" />
 					</div>
-					<div flex class="material-tile-content">
+					<div flex class="md-tile-content">
 						<div>{{player.name}} - {{player.questions[player.currentQuestion].question}}</div>
 						<div id="score" ng-style="{'overflow' : 'hidden', 'height': (player.scorecard.length + 1) * 0.1 * 116 + 'px'}">
 						<img id="#spaceship" src="UI/assets/images/spaceship1.svg"></svg>
 						<span ng-repeat="score in player.scorecard track by $index">*</span></div>
 					</div>
-				</material-item-content>
-			</material-item>
-		</material-list>
-		</material-content>
+				</md-item-content>
+			</md-item>
+		</md-list>
+		</md-content>
 	</body>
 </html>
