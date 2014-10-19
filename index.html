@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html ng-app="LearnApp">
 	<head>
-		<title>Learn receiver</title>
+		<title translate="TITLE"></title>
 		<link rel="stylesheet" type="text/css" href="bower_components/angular-material/angular-material.min.css">
 		<link rel="stylesheet" type="text/css" href="css/chromecast-material.css">
 		<link rel="stylesheet" type="text/css" href="css/learn.css">
@@ -35,14 +35,15 @@
 		</material-toolbar>
 		<material-content>
 		<p>{{'WELCOME' | translate}}</p>
-		<p translate='ACTIVE' translate-values="{ACTIVECOUNT: sendersCount}", translate-interpolation="messageformat"></p>
+		<p translate='ACTIVE' translate-values="{ACTIVECOUNT: players.length}", translate-interpolation="messageformat"></p>
+		<p ng-show="teacher">Teacher is here.</p>
 		<material-list>
 			<material-item ng-repeat="player in players">
-				<material-item-content>
+				<material-item-content layout="horizontal">
 					<div class="material-tile-left">
 						<img class="avatar" monsterid="{{player.name}}" title="{{player.name}}" ng-class="{'winner': player.isWinner}" />
 					</div>
-					<div class="material-tile-content">
+					<div flex class="material-tile-content">
 						<div>{{player.name}} - {{player.questions[player.currentQuestion].question}}</div>
 						<div id="score" ng-style="{'overflow' : 'hidden', 'height': (player.scorecard.length + 1) * 0.1 * 116 + 'px'}">
 						<img id="#spaceship" src="UI/assets/images/spaceship1.svg"></svg>

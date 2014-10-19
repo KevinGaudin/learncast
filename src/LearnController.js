@@ -17,7 +17,7 @@ learnApp.config(['$translateProvider',
 	}
 ]);
 
-function Player(senderId, channel, onAllQuestionsAnswered) {
+function Sender(senderId, channel, onAllQuestionsAnswered) {
 	console.log("create player ", senderId);
 	this.senderId = senderId;
 	this.channel = channel;
@@ -28,7 +28,7 @@ function Player(senderId, channel, onAllQuestionsAnswered) {
 	this.onAllQuestionsAnswered = onAllQuestionsAnswered;
 };
 
-Player.prototype = {
+Sender.prototype = {
 	senderId: null,
 	name: null,
 	channel: null,
@@ -41,8 +41,10 @@ Player.prototype = {
 		console.log("Received message from: " + this.senderId + ": ", event);
 		switch (event.message.command) {
 			case 'identify':
-				console.log(this.senderId + " gave name: " + event.message.name);
-				this.name = event.message.name;
+				if(event.message.name) {
+					console.log(this.senderId + " gave name: " + event.message.name);
+					this.name = event.message.name;
+				}
 				break;
 			case 'readyToPlay':
 				this.readyToPlay = event.message.value;
@@ -95,8 +97,9 @@ Player.prototype = {
 var LearnController = function($scope, QuestionFactory, $window, $translate) {
 	var _this = this;
 
-	$scope.sendersCount = 0;
+	$scope.senders = {};
 	$scope.players = [];
+	$scope.teacher = null;
 	$scope.raceLength = $window.innerWidth;
 
 	this.addSender = function(event) {
@@ -107,15 +110,10 @@ var LearnController = function($scope, QuestionFactory, $window, $translate) {
 
 			console.log("Get Channel with " + event.senderId);
 
-			var player = new Player(event.senderId, _this.bus.getCastChannel(event.senderId), _this.onPlayerAnsweredAllQuestions, Snap);
+			var sender = new Sender(event.senderId, _this.bus.getCastChannel(event.senderId), _this.onPlayerAnsweredAllQuestions);
 
-//			window.Snap("#spaceship").load("UI/assets/images/spaceship1.svg");
-
-			$scope.players.push(player);
-			console.log("players", $scope.players);
-
-			$scope.sendersCount = window.castReceiverManager.getSenders().length;
-			console.log($scope.sendersCount);
+			$scope.senders[event.senderId] = sender;
+			console.log("senders", $scope.senders);
 		});
 	}
 
@@ -129,7 +127,6 @@ var LearnController = function($scope, QuestionFactory, $window, $translate) {
 				event.reason == cast.receiver.system.DisconnectReason.REQUESTED_BY_SENDER) {
 				window.close();
 			}
-			$scope.sendersCount = window.castReceiverManager.getSenders().length;
 		});
 	};
 
@@ -141,6 +138,15 @@ var LearnController = function($scope, QuestionFactory, $window, $translate) {
 		$scope.$apply(function() {
 			console.log("Global message received: ", event);
 			switch (event.data.command) {
+				case 'identify':
+					if(event.data.teacher) {
+						console.log("Teacher is here!", event);
+						$scope.teacher = $scope.senders[event.senderId];
+					} else {
+						console.log("Player identified.", event);
+						$scope.players.push($scope.senders[event.senderId]);
+					}
+					break;
 				case 'readyToPlay':
 					// First check that everybody is ready
 					console.log("Are all players ready ?")
