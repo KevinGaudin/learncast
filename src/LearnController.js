@@ -92,7 +92,14 @@ Sender.prototype = {
 		}
 	},
 	onAllQuestionsAnswered: null,
-
+	sendConfig: function(config) {
+		var command = {
+			command: 'currentConfig',
+			config: config
+		};
+		console.log("Send currentConfig to " + this.senderId, command);
+		this.channel.send(command);
+	}
 }
 
 /**
@@ -146,6 +153,7 @@ var LearnController = function($scope, QuestionFactory, $window, $translate) {
 					if(event.data.teacher) {
 						console.log("Teacher is here!", event);
 						$scope.teacher = $scope.senders[event.senderId];
+						$scope.teacher.sendConfig(QuestionFactory.getConfig());
 					} else {
 						console.log("Player identified.", event);
 						$scope.players.push($scope.senders[event.senderId]);

@@ -1,4 +1,4 @@
-learnApp.factory('QuestionFactory', function() {
+learnApp.factory('QuestionFactory', ['$translate', function QuestionFactory($translate) {
 	var defaultConfiguration = {
 		addMaxInt: 10,
 		subMaxInt: 10,
@@ -14,10 +14,10 @@ learnApp.factory('QuestionFactory', function() {
 		// Configuration
 
 		conf: defaultConfiguration,
-		setConf: function(newConf) {
+		setConfig: function(newConf) {
 			this.conf = newConf;
 		},
-		getConf: function() {
+		getConfig: function() {
 			return this.conf;
 		},
 		getQuestion: function() {
@@ -49,7 +49,7 @@ learnApp.factory('QuestionFactory', function() {
 				operation = operand2 + " " + operator + " " + operand1;
 			}
 			var question = {
-				question: "Combien font " + operation + " ?",
+				question: $translate.instant("CALCULATE") + " " + operation + " ?",
 				result: eval(operation)
 			};
 			return question;
@@ -60,4 +60,4 @@ learnApp.factory('QuestionFactory', function() {
 
 
 	return questionFactoryInstance;
-});
+}]);
