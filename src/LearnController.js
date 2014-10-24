@@ -44,7 +44,7 @@ Sender.prototype = {
 		console.log("Received message from: " + this.senderId + ": ", event);
 		switch (event.message.command) {
 			case 'identify':
-				if(event.message.name) {
+				if (event.message.name) {
 					console.log(this.senderId + " gave name: " + event.message.name);
 					this.name = event.message.name;
 				}
@@ -150,7 +150,7 @@ var LearnController = function($scope, QuestionFactory, $window, $translate) {
 			console.log("Global message received: ", event);
 			switch (event.data.command) {
 				case 'identify':
-					if(event.data.teacher) {
+					if (event.data.teacher) {
 						console.log("Teacher is here!", event);
 						$scope.teacher = $scope.senders[event.senderId];
 						$scope.teacher.sendConfig(QuestionFactory.getConfig());
@@ -176,6 +176,10 @@ var LearnController = function($scope, QuestionFactory, $window, $translate) {
 					} else {
 						console.log("Still waiting for other players");
 					}
+					break;
+				case 'newConfig':
+					console.log("Teacher submits new config", event.data.config);
+					QuestionFactory.setConfig(event.data.config);
 					break;
 				default:
 					console.log("No global action required");
