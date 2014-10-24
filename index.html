@@ -41,15 +41,17 @@
 		<p ng-show="teacher">Teacher is here.</p>
 		<md-list>
 			<md-item ng-repeat="player in players">
-				<md-item-content layout="horizontal">
+				<md-item-content layout="horizontal" layout-align="start end">
 					<div class="md-tile-left">
 						<img class="avatar" monsterid="{{player.name}}" title="{{player.name}}" ng-class="{'winner': player.isWinner}" />
+						<div class="playername">{{player.name}}</div>
 					</div>
-					<div flex class="md-tile-content">
-						<div>{{player.name}} - {{player.questions[player.currentQuestion].question}}</div>
-						<div id="score" ng-style="{'overflow' : 'hidden', 'height': (player.scorecard.length) * 0.1 * 116 + 'px'}">
-						<img id="#spaceship" src="UI/assets/images/spaceship1.svg"></svg>
-						<span ng-repeat="score in player.scorecard track by $index">*</span></div>
+					<div class="md-tile-content rewards" layout="vertical" layout-align="end">
+						<div id="score" ng-style="{'overflow' : 'hidden', 'height': (player.scorecard.length) * 0.1 * 116 + 'px'}" ng-show="player.scorecard.length">
+							<img id="#spaceship" src="UI/assets/images/spaceship{{player.shipID}}.svg">
+						</div>
+						<div>{{player.questions[player.currentQuestion].question}}</div>
+						<div ng-show="player.isWinner">{{'FINISHED'|translate}}</div>
 					</div>
 				</md-item-content>
 			</md-item>

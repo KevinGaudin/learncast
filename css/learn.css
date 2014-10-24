@@ -3,19 +3,24 @@
 }
 
 .avatar {
-	padding: 0.2em;
-	width: 4em;
-	height: 4em;
+	padding: 0.4em;
+	width: 4.5em;
+	height: 4.5em;
 	position: relative;
 	background: black;
 	border-style: solid;
-	border-radius: 1em;
-	border-width: 0.2em;
+	border-radius: 0.9em;
+	border-width: 0.1em;
 	border-color: transparent;
-	margin: 1em;
+	margin: 0.2em 1em;
 }
 
-#score {
-	font-size: 2em;
+.playername {
+	text-align: center;
+}
+
+.rewards {
+	padding-top: 0;
+	padding-bottom: 0;
 }
 

@@ -1,6 +1,7 @@
 var LEARN_PROTOCOL = 'urn:x-cast:com.kg.learn';
 var PING_TIMEOUT = 5000;
 var NB_QUESTIONS = 10;
+var NB_SHIPS = 3;
 
 console.log("Create app module");
 var learnApp = angular.module('LearnApp', ['ngAnimate', 'pascalprecht.translate', 'ngMaterial']);
@@ -26,6 +27,7 @@ function Sender(senderId, channel, onAllQuestionsAnswered) {
 		command: "identify"
 	});
 	this.onAllQuestionsAnswered = onAllQuestionsAnswered;
+	this.shipID = Math.floor((Math.random() * NB_SHIPS) + 1);
 };
 
 Sender.prototype = {
@@ -37,6 +39,7 @@ Sender.prototype = {
 	currentQuestion: 0,
 	scorecard: null,
 	isWinner: false,
+	shipID: 1,
 	onMessage: function(event) {
 		console.log("Received message from: " + this.senderId + ": ", event);
 		switch (event.message.command) {
