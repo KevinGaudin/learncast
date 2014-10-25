@@ -1,6 +1,6 @@
   {
     "TITLE": "LearnCast",
-    "WELCOME": "Welcome to LearnCast",
+    "WELCOME": "Welcome to LearnCast. Players, please connect!",
     "ACTIVE": "There {ACTIVECOUNT, select, 1{is} other{are}} {ACTIVECOUNT} active sender{ACTIVECOUNT, select, 1{} other{s}}",
     "FINISHED": "Completed!",
     "CALCULATE": "Calculate "

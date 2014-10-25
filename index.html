@@ -31,14 +31,18 @@
 	</head>
 	<body ng-controller="LearnController as learn">
 		<md-toolbar class="md-theme-light">
-			<h1 class="md-toolbar-tools">
-				{{'TITLE' | translate}}
-			</h1>
+			<div class="md-toolbar-tools">
+					<span translate='TITLE'></span>
+					<!-- fill up the space between left and right area -->
+			      	<span flex></span>
+			      	<span>
+			      	{{players.length}}x<img src="UI/assets/icons/kids.svg">
+			      	</span>
+			      	<img ng-show="teacher" src="UI/assets/icons/teacher.svg">
+			</div>
 		</md-toolbar>
 		<md-content>
-		<p>{{'WELCOME' | translate}}</p>
-		<p translate='ACTIVE' translate-values="{ACTIVECOUNT: players.length}", translate-interpolation="messageformat"></p>
-		<p ng-show="teacher">Teacher is here.</p>
+		<p ng-hide="players.length">{{'WELCOME' | translate}}</p>
 		<md-list>
 			<md-item ng-repeat="player in players">
 				<md-item-content layout="horizontal" layout-align="start end">

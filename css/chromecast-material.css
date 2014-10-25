@@ -6,6 +6,11 @@ md-toolbar {
 	padding: 1em 1.5em 0.5em;
 }
 
+.md-toolbar-tools img {
+	height: 1em;
+	vertical-align: middle;
+}
+
 md-content {
 	padding-left: 1.5em;
 	padding-right: 1.5em;

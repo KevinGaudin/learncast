@@ -1,6 +1,6 @@
 { 
     "TITLE": "LearnCast",
-    "WELCOME": "Bienvenue sur LearnCast",
+    "WELCOME": "Bienvenue sur LearnCast. Joueurs, connectez vous !",
     "ACTIVE": "Il y a {ACTIVECOUNT} joueur{ACTIVECOUNT, select, 1{} other{s}} connecté{ACTIVECOUNT, select, 1{} other{s}}",
     "FINISHED": "Terminé !",
     "CALCULATE": "Calcule "
