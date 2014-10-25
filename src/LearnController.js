@@ -1,6 +1,6 @@
 var LEARN_PROTOCOL = 'urn:x-cast:com.kg.learn';
 var PING_TIMEOUT = 5000;
-var NB_QUESTIONS = 10;
+var NB_QUESTIONS = 3;
 var NB_SHIPS = 3;
 
 console.log("Create app module");
@@ -39,6 +39,7 @@ Sender.prototype = {
 	currentQuestion: 0,
 	scorecard: null,
 	isWinner: false,
+	finished: false,
 	shipID: 1,
 	onMessage: function(event) {
 		console.log("Received message from: " + this.senderId + ": ", event);
@@ -70,6 +71,7 @@ Sender.prototype = {
 		this.channel.send(command);
 	},
 	setQuestions: function(questions) {
+		this.shipID = Math.floor((Math.random() * NB_SHIPS) + 1);
 		this.isWinner = false;
 		this.questions = questions;
 		this.scorecard = Array();
@@ -85,13 +87,27 @@ Sender.prototype = {
 				this.ask();
 			} else {
 				// Finished all questions!
+				this.finished = true;
 				this.onAllQuestionsAnswered(this);
 			}
 		} else {
 			console.log(this.name + " " + answer + " is wrong, try again...");
 		}
 	},
+	// Callback set by the controller to let the sender warn the controller that all questions were answered
 	onAllQuestionsAnswered: null,
+	finish: function(rank) {
+		this.readyToPlay = false;
+		var command = {
+			command: 'finish',
+			rank: rank
+		};
+		console.log("Send finish to " + this.senderId, command);
+		this.channel.send(command);
+	},
+
+	// Teacher commands
+
 	sendConfig: function(config) {
 		var command = {
 			command: 'currentConfig',
@@ -99,7 +115,8 @@ Sender.prototype = {
 		};
 		console.log("Send currentConfig to " + this.senderId, command);
 		this.channel.send(command);
-	}
+	},
+
 }
 
 /**
@@ -110,6 +127,7 @@ var LearnController = function($scope, QuestionFactory, $window, $translate) {
 
 	$scope.senders = {};
 	$scope.players = [];
+	$scope.winners = [];
 	$scope.teacher = null;
 	$scope.raceLength = $window.innerWidth;
 
@@ -154,8 +172,8 @@ var LearnController = function($scope, QuestionFactory, $window, $translate) {
 						console.log("Teacher is here!", event);
 						$scope.teacher = $scope.senders[event.senderId];
 						$scope.teacher.sendConfig(QuestionFactory.getConfig());
-					} else {
-						console.log("Player identified.", event);
+					} else if ($scope.players.indexOf($scope.senders[event.senderId]) < 0) {
+						console.log("New player identified.", event);
 						$scope.players.push($scope.senders[event.senderId]);
 					}
 					break;
@@ -214,16 +232,26 @@ var LearnController = function($scope, QuestionFactory, $window, $translate) {
 
 	this.onPlayerAnsweredAllQuestions = function(player) {
 		$scope.$apply(function() {
-			console.log("winner: ", player.name);
-			player.isWinner = true;
-			var command = {
-				command: 'endGame',
-				winner: {
-					senderId: player.senderId,
-					name: player.name
-				}
-			};
-			_this.bus.broadcast(command);
+			// Add player to the winners list
+			$scope.winners.push(player);
+			var rank = $scope.winners.length;
+			player.finish(rank);
+
+			var allPlayersFinished = $scope.winners.length == $scope.players.length;
+
+			if (allPlayersFinished) {
+				var winner = $scope.winners[0];
+				console.log("winner: ", winner.name);
+				winner.isWinner = true;
+				var command = {
+					command: 'endGame',
+					winner: {
+						senderId: winner.senderId,
+						name: winner.name
+					}
+				};
+				_this.bus.broadcast(command);
+			}
 		});
 	};
 };

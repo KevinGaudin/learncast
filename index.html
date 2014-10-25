@@ -47,7 +47,7 @@
 						<div class="playername">{{player.name}}</div>
 					</div>
 					<div class="md-tile-content rewards" layout="vertical" layout-align="end">
-						<div id="score" ng-style="{'overflow' : 'hidden', 'height': (player.scorecard.length) * 0.1 * 116 + 'px'}" ng-show="player.scorecard.length">
+						<div id="score" ng-style="{'overflow' : 'hidden', 'height': (player.scorecard.length / player.questions.length) * 116 + 'px'}" ng-show="player.scorecard.length">
 							<img id="#spaceship" src="UI/assets/images/spaceship{{player.shipID}}.svg">
 						</div>
 						<div>{{player.questions[player.currentQuestion].question}}</div>
