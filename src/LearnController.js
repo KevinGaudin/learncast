@@ -2,11 +2,15 @@ var LEARN_PROTOCOL = 'urn:x-cast:com.kg.learn';
 var PING_TIMEOUT = 5000;
 
 console.log("Create app module");
-var learnApp = angular.module('LearnApp', ['ngAnimate', 'pascalprecht.translate', 'ngMaterial']);
+var learnApp = angular.module('LearnApp', ['ngAnimate', 'pascalprecht.translate', 'ngMaterial', 'learncast.speech']);
 
 learnApp.value('globalConfig', {
-	nbQuestions: 3,
-	nbShips: 4
+	nbQuestions: 10,
+	nbShips: 4,
+	update: function(newConf) {
+		this.nbShips = newConf.nbShips;
+		this.nbQuestions = newConf.nbQuestions;
+	}
 });
 
 learnApp.config(['$translateProvider',
@@ -130,7 +134,7 @@ Sender.prototype = {
 /**
  * LearnController : main controller for our AngularJS app
  */
-var LearnController = function($scope, QuestionFactory, $window, $translate, globalConfig) {
+var LearnController = function($scope, QuestionFactory, $window, $translate, globalConfig, speech) {
 	var _this = this;
 
 	$scope.senders = {};
@@ -205,7 +209,7 @@ var LearnController = function($scope, QuestionFactory, $window, $translate, glo
 				case 'newConfig':
 					console.log("Teacher submits new config", event.data.config);
 					QuestionFactory.setConfig(event.data.config.questions);
-					_this.conf = event.data.config.global;
+					globalConfig.update(event.data.config.global);
 					break;
 				default:
 					console.log("No global action required");
@@ -225,6 +229,7 @@ var LearnController = function($scope, QuestionFactory, $window, $translate, glo
 	this.startGame = function() {
 		// Reset previous questions
 		console.log("Start new game");
+//		speech.sayText("C'est parti !");
 		_this.questions = [];
 		$scope.winners = [];
 
@@ -238,7 +243,7 @@ var LearnController = function($scope, QuestionFactory, $window, $translate, glo
 			player.ask();
 		});
 
-	}
+	};
 
 	this.onPlayerAnsweredAllQuestions = function(player) {
 		$scope.$apply(function() {
@@ -268,5 +273,5 @@ var LearnController = function($scope, QuestionFactory, $window, $translate, glo
 
 
 
-LearnController.$inject = ['$scope', 'QuestionFactory', '$window', '$translate', 'globalConfig'];
+LearnController.$inject = ['$scope', 'QuestionFactory', '$window', '$translate', 'globalConfig', 'speech'];
 learnApp.controller('LearnController', LearnController);
