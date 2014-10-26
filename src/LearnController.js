@@ -1,7 +1,7 @@
 var LEARN_PROTOCOL = 'urn:x-cast:com.kg.learn';
 var PING_TIMEOUT = 5000;
 var NB_QUESTIONS = 3;
-var NB_SHIPS = 3;
+var NB_SHIPS = 4;
 
 console.log("Create app module");
 var learnApp = angular.module('LearnApp', ['ngAnimate', 'pascalprecht.translate', 'ngMaterial']);
@@ -129,7 +129,6 @@ var LearnController = function($scope, QuestionFactory, $window, $translate) {
 	$scope.players = [];
 	$scope.winners = [];
 	$scope.teacher = null;
-	$scope.raceLength = $window.innerWidth;
 
 	this.addSender = function(event) {
 		$scope.$apply(function() {
@@ -216,7 +215,9 @@ var LearnController = function($scope, QuestionFactory, $window, $translate) {
 	this.questions = [];
 	this.startGame = function() {
 		// Reset previous questions
+		console.log("Start new game");
 		_this.questions = [];
+		$scope.winners = [];
 
 		// Prepare 10 questions
 		for (var i = 0; i < NB_QUESTIONS; i++) {
