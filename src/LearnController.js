@@ -1,10 +1,13 @@
 var LEARN_PROTOCOL = 'urn:x-cast:com.kg.learn';
 var PING_TIMEOUT = 5000;
-var NB_QUESTIONS = 3;
-var NB_SHIPS = 4;
 
 console.log("Create app module");
 var learnApp = angular.module('LearnApp', ['ngAnimate', 'pascalprecht.translate', 'ngMaterial']);
+
+learnApp.value('globalConfig', {
+	nbQuestions: 3,
+	nbShips: 4
+});
 
 learnApp.config(['$translateProvider',
 	function($translateProvider) {
@@ -18,7 +21,7 @@ learnApp.config(['$translateProvider',
 	}
 ]);
 
-function Sender(senderId, channel, onAllQuestionsAnswered) {
+function Sender(globalConfig, senderId, channel, onAllQuestionsAnswered) {
 	console.log("create player ", senderId);
 	this.senderId = senderId;
 	this.channel = channel;
@@ -27,7 +30,9 @@ function Sender(senderId, channel, onAllQuestionsAnswered) {
 		command: "identify"
 	});
 	this.onAllQuestionsAnswered = onAllQuestionsAnswered;
-	this.shipID = Math.floor((Math.random() * NB_SHIPS) + 1);
+	this.setShip = function() {
+		this.shipID = Math.floor((Math.random() * globalConfig.nbShips) + 1);
+	}.bind(this);
 };
 
 Sender.prototype = {
@@ -40,7 +45,7 @@ Sender.prototype = {
 	scorecard: null,
 	isWinner: false,
 	finished: false,
-	shipID: 1,
+	shipID: null,
 	onMessage: function(event) {
 		console.log("Received message from: " + this.senderId + ": ", event);
 		switch (event.message.command) {
@@ -71,7 +76,7 @@ Sender.prototype = {
 		this.channel.send(command);
 	},
 	setQuestions: function(questions) {
-		this.shipID = Math.floor((Math.random() * NB_SHIPS) + 1);
+		this.setShip();
 		this.isWinner = false;
 		this.questions = questions;
 		this.scorecard = Array();
@@ -108,10 +113,13 @@ Sender.prototype = {
 
 	// Teacher commands
 
-	sendConfig: function(config) {
+	sendConfig: function(globalConfig, questionsConfig) {
 		var command = {
 			command: 'currentConfig',
-			config: config
+			config: {
+				questions: questionsConfig,
+				global: globalConfig
+			}
 		};
 		console.log("Send currentConfig to " + this.senderId, command);
 		this.channel.send(command);
@@ -122,7 +130,7 @@ Sender.prototype = {
 /**
  * LearnController : main controller for our AngularJS app
  */
-var LearnController = function($scope, QuestionFactory, $window, $translate) {
+var LearnController = function($scope, QuestionFactory, $window, $translate, globalConfig) {
 	var _this = this;
 
 	$scope.senders = {};
@@ -138,7 +146,7 @@ var LearnController = function($scope, QuestionFactory, $window, $translate) {
 
 			console.log("Get Channel with " + event.senderId);
 
-			var sender = new Sender(event.senderId, _this.bus.getCastChannel(event.senderId), _this.onPlayerAnsweredAllQuestions);
+			var sender = new Sender(globalConfig, event.senderId, _this.bus.getCastChannel(event.senderId), _this.onPlayerAnsweredAllQuestions);
 
 			$scope.senders[event.senderId] = sender;
 			console.log("senders", $scope.senders);
@@ -170,7 +178,7 @@ var LearnController = function($scope, QuestionFactory, $window, $translate) {
 					if (event.data.teacher) {
 						console.log("Teacher is here!", event);
 						$scope.teacher = $scope.senders[event.senderId];
-						$scope.teacher.sendConfig(QuestionFactory.getConfig());
+						$scope.teacher.sendConfig(globalConfig, QuestionFactory.getConfig());
 					} else if ($scope.players.indexOf($scope.senders[event.senderId]) < 0) {
 						console.log("New player identified.", event);
 						$scope.players.push($scope.senders[event.senderId]);
@@ -196,7 +204,8 @@ var LearnController = function($scope, QuestionFactory, $window, $translate) {
 					break;
 				case 'newConfig':
 					console.log("Teacher submits new config", event.data.config);
-					QuestionFactory.setConfig(event.data.config);
+					QuestionFactory.setConfig(event.data.config.questions);
+					_this.conf = event.data.config.global;
 					break;
 				default:
 					console.log("No global action required");
@@ -220,7 +229,7 @@ var LearnController = function($scope, QuestionFactory, $window, $translate) {
 		$scope.winners = [];
 
 		// Prepare 10 questions
-		for (var i = 0; i < NB_QUESTIONS; i++) {
+		for (var i = 0; i < globalConfig.nbQuestions; i++) {
 			_this.questions[i] = QuestionFactory.getQuestion();
 		}
 
@@ -259,5 +268,5 @@ var LearnController = function($scope, QuestionFactory, $window, $translate) {
 
 
 
-LearnController.$inject = ['$scope', 'QuestionFactory', '$window', '$translate'];
+LearnController.$inject = ['$scope', 'QuestionFactory', '$window', '$translate', 'globalConfig'];
 learnApp.controller('LearnController', LearnController);
