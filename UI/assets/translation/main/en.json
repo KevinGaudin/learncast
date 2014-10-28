@@ -3,5 +3,7 @@
     "WELCOME": "Welcome to LearnCast. Players, please connect!",
     "ACTIVE": "There {ACTIVECOUNT, select, 1{is} other{are}} {ACTIVECOUNT} active sender{ACTIVECOUNT, select, 1{} other{s}}",
     "FINISHED": "Completed!",
-    "CALCULATE": "Calculate "
+    "CALCULATE": "Calculate ",
+    "TYPING_WORDS_1": "the,of,and,that,cat,mat,sat,hat,to,in,is,you,man,can,ran,pan,than,it,he,was,map,cap,nap,tap,for,on,are,as,back,sack,black,snack",
+    "TYPING_WORDS_2": "over,new,art,take,only,car,park,hard,barn,card,shark,dark,oh,eyes,timeline,hold"
   }

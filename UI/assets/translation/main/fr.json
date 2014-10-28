@@ -3,5 +3,7 @@
     "WELCOME": "Bienvenue sur LearnCast. Joueurs, connectez vous !",
     "ACTIVE": "Il y a {ACTIVECOUNT} joueur{ACTIVECOUNT, select, 1{} other{s}} connecté{ACTIVECOUNT, select, 1{} other{s}}",
     "FINISHED": "Terminé !",
-    "CALCULATE": "Calcule "
+    "CALCULATE": "Calcule ",
+    "TYPING_WORDS_1": "le,la,un,une,ma,ta,sa,mon,ton,son,ce,les,des,mes,tes,ses,ces,du,au,quel,quelle,je,tu,il,elle,nous,vous,ils,elles,en,y,tout,on,qui,que,quoi,dont,oui,non,et,car,mais,ou,alors,puis,ensuite,de,à,dans,sur,sous,chez,entre,avant,après,avec,sans,par,pour,comme,où,quand,comment,ici,près,tard,tôt,toujours,encore,bien,trop,très,si,plus,moins,pas,jamais",
+    "TYPING_WORDS_2": "plusieurs,d’accord,hélas,peut-être,donc,pourtant,autour,derrière,dessous,dessus,devant,parmi,vers,durant,pendant,depuis,afin,malgré,sauf,lorsque,parce que,pourquoi,ailleurs,dedans,dehors,côte à côte,loin,partout,aujourd’hui,aussitôt,autrefois,avant-hier,bientôt,d’abord,déjà,demain,en ce moment,hier,de temps en temps,en avance,en retard,enfin,longtemps,maintenant,quelquefois,soudain,souvent,tout à coup,assez,aussi,autant,beaucoup,davantage,presque,debout,ensemble,mieux,sinon,brusquement,exactement,doucement,facilement,heureusement,lentement,sagement,seulement,tranquillement"
 }

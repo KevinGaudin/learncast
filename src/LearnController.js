@@ -6,7 +6,7 @@ var learnApp = angular.module('LearnApp', ['ngAnimate', 'pascalprecht.translate'
 
 learnApp.value('globalConfig', {
 	nbQuestions: 10,
-	nbShips: 4,
+	nbShips: 6,
 	update: function(newConf) {
 		this.nbShips = newConf.nbShips;
 		this.nbQuestions = newConf.nbQuestions;
