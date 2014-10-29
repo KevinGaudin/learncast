@@ -15,7 +15,6 @@ learnApp.factory('QuestionFactory', ['$translate',
 
 		var questionFactoryInstance = {
 			// Configuration
-
 			conf: defaultConfiguration,
 			setConfig: function(newConf) {
 				this.conf = newConf;
@@ -23,10 +22,6 @@ learnApp.factory('QuestionFactory', ['$translate',
 			getConfig: function() {
 				return this.conf;
 			},
-			getQuestion: function() {
-				return getCaclulationQuestion();
-			},
-
 			getCalculationQuestion: function() {
 				var operators = [];
 				if (this.conf.calculation.operatorAdd) {
@@ -65,9 +60,24 @@ learnApp.factory('QuestionFactory', ['$translate',
 				};
 				return question;
 			},
-
 			getTypingQuestion: function() {
-
+				var wordsList1 = $translate.instant("TYPING_WORDS_1").split(',');
+				var wordsList2 = $translate.instant("TYPING_WORDS_2").split(',');
+				var wordsList3 = $translate.instant("TYPING_WORDS_3").split(',');
+				var possibleWords = wordsList1.concat(wordsList2).concat(wordsList3);
+				var wordToType = possibleWords[Math.floor(Math.random() * possibleWords.length)];
+				var question = {
+					question: $translate.instant("TYPE_THIS_WORD") + wordToType,
+					result: wordToType
+				};
+				return question;
+			},
+			getQuestion: function() {
+				console.log("Select question generators available in this ", this);
+				var possibleQuestionGenerators = [this.getCalculationQuestion.bind(this), this.getTypingQuestion.bind(this)];
+				var questionGenerator = possibleQuestionGenerators[Math.floor(Math.random() * possibleQuestionGenerators.length)];
+				console.log("Selected generator", questionGenerator, possibleQuestionGenerators);
+				return questionGenerator();
 			}
 		}
 

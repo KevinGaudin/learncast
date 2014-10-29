@@ -6,7 +6,7 @@ var learnApp = angular.module('LearnApp', ['ngAnimate', 'pascalprecht.translate'
 
 learnApp.value('globalConfig', {
 	nbQuestions: 10,
-	nbShips: 6,
+	nbShips: 7,
 	update: function(newConf) {
 		this.nbShips = newConf.nbShips;
 		this.nbQuestions = newConf.nbQuestions;
@@ -36,6 +36,10 @@ function Sender(globalConfig, senderId, channel, onAllQuestionsAnswered) {
 	this.onAllQuestionsAnswered = onAllQuestionsAnswered;
 	this.setShip = function() {
 		this.shipID = Math.floor((Math.random() * globalConfig.nbShips) + 1);
+/*		if(this.name == "emmz") {
+			this.shipID = 7;
+		}
+*/
 	}.bind(this);
 };
 
