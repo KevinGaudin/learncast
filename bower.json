@@ -19,7 +19,7 @@
     "angular-translate": ">=2.4.0",
     "angular-translate-loader-static-files": ">=2.4.0",
     "angular-translate-interpolation-messageformat": ">=2.4.0",
-    "angular-material": "0.4.2",
+    "angular-material": ">=0.4.2",
     "speech-synthesis": "latest"
   },
   "resolutions": {

@@ -47,12 +47,12 @@
 		<p ng-hide="players.length">{{'WELCOME' | translate}}</p>
 		<md-list>
 			<md-item ng-repeat="player in players">
-				<md-item-content layout="horizontal" layout-align="start end">
+				<md-item-content layout="row" layout-align="start end">
 					<div class="md-tile-left">
 						<img class="avatar" monsterid="{{player.name}}" title="{{player.name}}" ng-class="{'winner': player.isWinner}" />
 						<div class="playername">{{player.name}}</div>
 					</div>
-					<div class="md-tile-content rewards" layout="vertical" layout-align="end">
+					<div class="md-tile-content rewards" layout="column" layout-align="end">
 						<div id="score" ng-style="{'overflow' : 'hidden', 'height': (player.scorecard.length / player.questions.length) * 116 + 'px'}" ng-show="player.scorecard.length">
 							<img id="#spaceship" src="UI/assets/images/spaceship{{player.shipID}}.svg">
 						</div>

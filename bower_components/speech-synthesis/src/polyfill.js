@@ -123,14 +123,11 @@
     };
 
     this._initAudio = function(){
-      console.log("SpeechSynthesisPolyfill _initAudio");
       var sentences = [];
       that._ended = false;
       var audio = new Audio();
 
       audio.addEventListener('play', function() {
-        console.log("SpeechSynthesisPolyfill play");
-
         updateElapsedTime();
 
         if (! startTime) {
@@ -147,16 +144,13 @@
       }, false);
 
       audio.addEventListener('ended', function() {
-        console.log("SpeechSynthesisPolyfill ended");
 
         if (sentences.length) {
           var audioURL = getAudioUrl(that.corsProxyServer, sentences.shift(), that.lang);
           audio.src = audioURL;
-          console.log("SpeechSynthesisPolyfill play next sentence", audioURL);
           audio.play();
         }
         else {
-          console.log("SpeechSynthesisPolyfill no more sentence");
           updateElapsedTime();
           that._ended = true;
           if (that.onend) {
@@ -166,8 +160,7 @@
         
       }, false);
 
-      audio.addEventListener('error', function(audioerror) {
-        console.log("SpeechSynthesisPolyfill error", audioerror.target.error, audioerror.target);
+      audio.addEventListener('error', function() {
         updateElapsedTime();
         that._ended = true;
         if (that.onerror) {
@@ -201,7 +194,7 @@
       audio.src = audioURL;
       audio.volume = that.volume;
       audio.playbackRate = that.rate;
-      console.log("SpeechSynthesisPolyfill returns audio object", audio);
+
       return audio;
     };
 

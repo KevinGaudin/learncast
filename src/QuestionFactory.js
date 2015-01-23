@@ -2,6 +2,7 @@ learnApp.factory('QuestionFactory', ['$translate',
 	function QuestionFactory($translate) {
 		var defaultConfiguration = {
 			calculation: {
+				enabled: true,
 				addMaxInt: 10,
 				subMaxInt: 10,
 				multOperands1: "0 1 2 3 4 5 6 7 8 9",
@@ -10,6 +11,9 @@ learnApp.factory('QuestionFactory', ['$translate',
 				operatorAdd: true,
 				operatorSub: true,
 				operatorMult: true
+			},
+			typing: {
+				enabled: false
 			}
 		};
 
@@ -74,7 +78,13 @@ learnApp.factory('QuestionFactory', ['$translate',
 			},
 			getQuestion: function() {
 				console.log("Select question generators available in this ", this);
-				var possibleQuestionGenerators = [this.getCalculationQuestion.bind(this), this.getTypingQuestion.bind(this)];
+				var possibleQuestionGenerators = [];
+				if (this.conf.typing.enabled) {
+					possibleQuestionGenerators.push(this.getTypingQuestion.bind(this));
+				}
+				if(this.conf.calculation.enabled) {
+					possibleQuestionGenerators.push(this.getCalculationQuestion.bind(this))
+				}
 				var questionGenerator = possibleQuestionGenerators[Math.floor(Math.random() * possibleQuestionGenerators.length)];
 				console.log("Selected generator", questionGenerator, possibleQuestionGenerators);
 				return questionGenerator();

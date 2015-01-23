@@ -35,7 +35,6 @@
     "commit": "47f7c24c00ba9626fd01bc4e186a58014d040f8f"
   },
   "_source": "git://github.com/janantala/speech-synthesis.git",
-  "_target": "~0.4.0",
-  "_originalSource": "speech-synthesis",
-  "_direct": true
+  "_target": "*",
+  "_originalSource": "speech-synthesis"
 }
